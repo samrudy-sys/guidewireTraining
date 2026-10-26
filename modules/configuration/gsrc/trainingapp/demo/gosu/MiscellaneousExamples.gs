@@ -224,8 +224,8 @@ class MiscellaneousExamples {
 
 
 /* This is an example of a function that you might want to test
-   using a GUnit test. (The test is in Tests -> SampleTest ->
-   BirthdayTest
+   using a GUnit test. (The test is in gtest -> gw.servertest ->
+   BirthdayTest)
 */
 
   public static function isBirthdayInFuture (anABContact: ABContact) : Boolean {
