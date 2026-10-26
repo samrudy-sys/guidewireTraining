@@ -1,7 +1,6 @@
 package trainingapp.entity
 
 uses gw.api.util.DateUtil
-uses gw.api.util.Math
 
 
 enhancement ABPersonEnhancement: entity.ABPerson {
@@ -18,9 +17,9 @@ enhancement ABPersonEnhancement: entity.ABPerson {
 
   // end of property
 
-  /* Calculates age as string if date of birth is known.
-     Calls math floor function to round to year. Otherwise,
-     returns "Unknown".
+  /* Calculates age as string if date of birth is known: the difference
+     between the current year and the birth year, minus 1 if this year's
+     birthday has not yet occurred. Otherwise, returns "Unknown".
   */
 
   property get Age(): String {
@@ -28,8 +27,12 @@ enhancement ABPersonEnhancement: entity.ABPerson {
       return "Unknown"
     } else {
       var today = DateUtil.currentDate()
-      var ageInDays = DateUtil.daysBetween(this.DateOfBirth, today)
-      var ageInYears = Math.roundDown(ageInDays / 365)
+      var birthDate = this.DateOfBirth
+      var ageInYears = today.YearOfDate - birthDate.YearOfDate
+      if (today.MonthOfYear < birthDate.MonthOfYear or
+          (today.MonthOfYear == birthDate.MonthOfYear and today.DayOfMonth < birthDate.DayOfMonth)) {
+        ageInYears = ageInYears - 1
+      }
       return ageInYears as java.lang.String
     }
   }
